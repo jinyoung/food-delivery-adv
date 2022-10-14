@@ -72,6 +72,8 @@
                 'address': '',
                 'customerId': '',
                 'options': [],
+                'status': '',
+                'reason': '',
             }
         },
         methods:{

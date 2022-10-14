@@ -70,6 +70,7 @@
             me.newValue = {
                 'orderId': 0,
                 'options': [],
+                'status': '',
             }
         },
         methods:{

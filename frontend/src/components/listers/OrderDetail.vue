@@ -15,6 +15,12 @@
                 <String label="CustomerId" v-model="item.customerId" :editMode="editMode" @change="change" />
             </div>
             <StringManager offline label="Options" v-model="item.options" :editMode="false" @change="change" />
+            <div>
+                <String label="Status" v-model="item.status" :editMode="editMode" @change="change" />
+            </div>
+            <div>
+                <String label="Reason" v-model="item.reason" :editMode="editMode" @change="change" />
+            </div>
         </v-card-text>
 
         <v-card-actions>

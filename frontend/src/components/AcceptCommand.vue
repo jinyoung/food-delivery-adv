@@ -6,6 +6,8 @@
         </v-card-title>
 
         <v-card-text>
+            <Boolean label="AcceptOrNot" v-model="value.acceptOrNot" :editMode="editMode"/>
+            <String label="RejectionReason" v-model="value.rejectionReason" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -41,6 +43,8 @@
             value: {},
         }),
         created() {
+            this.value.acceptOrNot = false;
+            this.value.rejectionReason = '';
         },
         watch: {
         },

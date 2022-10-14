@@ -1,48 +1,72 @@
 package food.delivery.domain;
 
 import food.delivery.StoreApplication;
-import food.delivery.domain.Accept;
-import food.delivery.domain.Cooked;
-import food.delivery.domain.Rejected;
-import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
+import java.util.List;
 import lombok.Data;
+import java.util.Date;
 
 @Entity
-@Table(name = "Cooking_table")
+@Table(name="Cooking_table")
 @Data
-public class Cooking {
 
+public class Cooking  {
+
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    
+    
+    
+    
+    
     private Long id;
-
+    
+    
+    
+    
+    
     private Long orderId;
-
+    
+    
+    
     @ElementCollection
+    
     private List<String> options;
+    
+    
+    
+    
+    
+    private String status;
 
     @PostPersist
-    public void onPostPersist() {
-        Cooked cooked = new Cooked(this);
-        cooked.publishAfterCommit();
-
-        Accept accept = new Accept(this);
-        accept.publishAfterCommit();
-
-        Rejected rejected = new Rejected(this);
-        rejected.publishAfterCommit();
+    public void onPostPersist(){
     }
 
-    public static CookingRepository repository() {
-        CookingRepository cookingRepository = StoreApplication.applicationContext.getBean(
-            CookingRepository.class
-        );
+    public static CookingRepository repository(){
+        CookingRepository cookingRepository = StoreApplication.applicationContext.getBean(CookingRepository.class);
         return cookingRepository;
     }
 
-    public static void loadToOrderList(OrderPlaced orderPlaced) {
+
+
+    public void accept(AcceptCommand acceptCommand){
+        Accepted accepted = new Accepted(this);
+        accepted.publishAfterCommit();
+
+        Rejected rejected = new Rejected(this);
+        rejected.publishAfterCommit();
+
+    }
+    public void finish(){
+        Cooked cooked = new Cooked(this);
+        cooked.publishAfterCommit();
+
+    }
+
+    public static void loadToOrderList(OrderPlaced orderPlaced){
+
         /** Example 1:  new item 
         Cooking cooking = new Cooking();
         repository().save(cooking);
@@ -60,5 +84,8 @@ public class Cooking {
          });
         */
 
+        
     }
+
+
 }

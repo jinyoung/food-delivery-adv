@@ -9,6 +9,9 @@
                 <Number label="OrderId" v-model="item.orderId" :editMode="editMode" @change="change" />
             </div>
             <StringManager offline label="Options" v-model="item.options" :editMode="false" @change="change" />
+            <div>
+                <String label="Status" v-model="item.status" :editMode="editMode" @change="change" />
+            </div>
         </v-card-text>
 
         <v-card-actions>

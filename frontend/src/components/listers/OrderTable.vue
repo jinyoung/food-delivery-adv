@@ -71,6 +71,8 @@
                     { text: "address", value: "address" },
                     { text: "customerId", value: "customerId" },
                     { text: "options", value: "options" },
+                    { text: "status", value: "status" },
+                    { text: "reason", value: "reason" },
                 ],
             order : [],
             newValue: {},
@@ -92,6 +94,8 @@
                 'address': '',
                 'customerId': '',
                 'options': [],
+                'status': '',
+                'reason': '',
             }
         },
         methods: {
