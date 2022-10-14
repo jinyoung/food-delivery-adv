@@ -1,9 +1,6 @@
 package food.delivery.domain;
 
 import food.delivery.StoreApplication;
-import food.delivery.domain.Accept;
-import food.delivery.domain.Cooked;
-import food.delivery.domain.Rejected;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -23,17 +20,10 @@ public class Cooking {
     @ElementCollection
     private List<String> options;
 
+    private String status;
+
     @PostPersist
-    public void onPostPersist() {
-        Cooked cooked = new Cooked(this);
-        cooked.publishAfterCommit();
-
-        Accept accept = new Accept(this);
-        accept.publishAfterCommit();
-
-        Rejected rejected = new Rejected(this);
-        rejected.publishAfterCommit();
-    }
+    public void onPostPersist() {}
 
     public static CookingRepository repository() {
         CookingRepository cookingRepository = StoreApplication.applicationContext.getBean(
@@ -42,12 +32,43 @@ public class Cooking {
         return cookingRepository;
     }
 
+    public void accept(AcceptCommand acceptCommand) {
+        if(acceptCommand.getAcceptOrNot()){
+            Accepted accepted = new Accepted(this);
+            accepted.publishAfterCommit();
+            
+            setStatus("ACCEPTED");
+    
+        }else{
+            Rejected rejected = new Rejected(this);
+            rejected.setRejectionReason(acceptCommand.getRejectionReason());
+            rejected.publishAfterCommit();
+
+            setStatus("REJECTED");
+
+        }
+
+    }
+
+    public void finish() {
+        Cooked cooked = new Cooked(this);
+        cooked.publishAfterCommit();
+
+        setStatus("COOKED");
+
+    }
+
     public static void loadToOrderList(OrderPlaced orderPlaced) {
-        /** Example 1:  new item 
+        /** Example 1:  new item         */
+
         Cooking cooking = new Cooking();
+
+        cooking.setOrderId(orderPlaced.getId());
+        cooking.setStatus("READY");
+        cooking.setOptions(orderPlaced.getOptions());
+
         repository().save(cooking);
 
-        */
 
         /** Example 2:  finding and process
         

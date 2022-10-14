@@ -33,11 +33,19 @@ mvn spring-boot:run
 ## Test by API
 - app
 ```
- http :8088/orders id="id" menuId="menuId" address="address" customerId="customerId" options="options" 
-```
-- store
-```
- http :8088/cookings id="id" orderId="orderId" options="options" 
+ http :8088/orders menuId=1 address="address" customerId="customerId" 
+
+ http :8088/cookings 
+ http PUT "http://localhost:8082/cookings/1/accept" acceptOrNot=true
+ http :8088/orders/1
+
+ http PUT "http://localhost:8082/cookings/1/finish"
+ http :8088/orders/1
+
+# 두번째 주문
+ http :8088/orders menuId=2 address="address" customerId="customerId" 
+ http PUT "http://localhost:8082/cookings/2/accept" acceptOrNot=false rejectionReason="재료소진"
+ http :8088/orders/2
 ```
 
 
