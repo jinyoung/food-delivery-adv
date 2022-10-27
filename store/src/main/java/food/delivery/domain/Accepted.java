@@ -13,10 +13,11 @@ public class Accepted extends AbstractEvent {
     private Long orderId;
     private List<String> options;
 
-    public Accepted(Cooking aggregate){
+    public Accepted(Cooking aggregate) {
         super(aggregate);
     }
-    public Accepted(){
+
+    public Accepted() {
         super();
     }
 }

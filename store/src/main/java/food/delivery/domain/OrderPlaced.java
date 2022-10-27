@@ -1,12 +1,14 @@
 package food.delivery.domain;
 
 import food.delivery.domain.*;
-import food.delivery.infra.AbstractEvent;
-import lombok.*;
+import io.eventuate.tram.events.common.DomainEvent;
 import java.util.*;
+//import food.delivery.infra.AbstractEvent;
+import lombok.*;
+
 @Data
 @ToString
-public class OrderPlaced extends AbstractEvent {
+public class OrderPlaced implements DomainEvent {
 
     private Long id;
     private String menuId;
@@ -16,5 +18,3 @@ public class OrderPlaced extends AbstractEvent {
     private String status;
     private String reason;
 }
-
-

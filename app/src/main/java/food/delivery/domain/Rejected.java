@@ -2,8 +2,9 @@ package food.delivery.domain;
 
 import food.delivery.domain.*;
 import food.delivery.infra.AbstractEvent;
-import lombok.*;
 import java.util.*;
+import lombok.*;
+
 @Data
 @ToString
 public class Rejected extends AbstractEvent {
@@ -13,5 +14,3 @@ public class Rejected extends AbstractEvent {
     private Object options;
     private String rejectionReason;
 }
-
-

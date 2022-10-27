@@ -17,10 +17,11 @@ public class OrderPlaced extends AbstractEvent {
     private String status;
     private String reason;
 
-    public OrderPlaced(Order aggregate){
+    public OrderPlaced(Order aggregate) {
         super(aggregate);
     }
-    public OrderPlaced(){
+
+    public OrderPlaced() {
         super();
     }
 }

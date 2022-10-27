@@ -6,7 +6,6 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 public interface KafkaProcessor {
-
     String INPUT = "event-in";
     String OUTPUT = "event-out";
 
@@ -15,5 +14,4 @@ public interface KafkaProcessor {
 
     @Output(OUTPUT)
     MessageChannel outboundTopic();
-
 }

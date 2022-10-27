@@ -1,45 +1,45 @@
 package food.delivery.infra;
 
-import javax.naming.NameParser;
-
-import javax.naming.NameParser;
-import javax.transaction.Transactional;
-
-import food.delivery.config.kafka.KafkaProcessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.stereotype.Service;
 import food.delivery.domain.*;
-
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-public class PolicyHandler{
-    @Autowired CookingRepository cookingRepository;
-    
-    @StreamListener(KafkaProcessor.INPUT)
-    public void whatever(@Payload String eventString){}
+@Configuration
+public class PolicyHandler {
 
-    @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='OrderPlaced'")
-    public void wheneverOrderPlaced_LoadToOrderList(@Payload OrderPlaced orderPlaced){
+    @Bean
+    public DomainEventDispatcher domainEventDispatcher(
+        DomainEventDispatcherFactory domainEventDispatcherFactory
+    ) {
+        return domainEventDispatcherFactory.make(
+            "OrderEvents",
+            DomainEventHandlersBuilder
+                .forAggregateType("Order")
+                .onEvent(
+                    OrderPlaced.class,
+                    PolicyHandler::wheneverOrderPlaced_LoadToOrderList
+                )
+                .build()
+        );
+    }
 
+    @Autowired
+    CookingRepository cookingRepository;
+
+    public void whatever(@Payload String eventString) {}
+
+    public void wheneverOrderPlaced_LoadToOrderList(
+        @Payload OrderPlaced orderPlaced
+    ) {
         OrderPlaced event = orderPlaced;
-        System.out.println("\n\n##### listener LoadToOrderList : " + orderPlaced + "\n\n");
-
-
-        
+        System.out.println(
+            "\n\n##### listener LoadToOrderList : " + orderPlaced + "\n\n"
+        );
 
         // Sample Logic //
         Cooking.loadToOrderList(event);
-        
-
-        
-
     }
-
 }
-
-

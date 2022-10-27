@@ -14,10 +14,11 @@ public class Rejected extends AbstractEvent {
     private List<String> options;
     private String rejectionReason;
 
-    public Rejected(Cooking aggregate){
+    public Rejected(Cooking aggregate) {
         super(aggregate);
     }
-    public Rejected(){
+
+    public Rejected() {
         super();
     }
 }
